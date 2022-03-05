@@ -16,15 +16,12 @@ logger = Logger().configure()
 #### Example
 
 ```python
-logger.info("Information")
-logger.error("Error")
-logger.warning("Warning")
-logger.critical("Critical")
+logger.info("Message - Info")
+logger.error("Message - Error")
+logger.warning("Message - Warning")
+logger.critical("Message - Critical")
 ```
 #### Output
-
-- Python File
-![alt text](https://raw.githubusercontent.com/carlos-rian/guvicorn_logger/main/docs/img/normal.JPG)
 
 - Framework (Uvicorn, Gunicorn, Fastapi)
 ![alt text](https://raw.githubusercontent.com/carlos-rian/guvicorn_logger/main/docs/img/framework-web.JPG)

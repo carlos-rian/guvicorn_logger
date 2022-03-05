@@ -44,11 +44,21 @@ class DefaultFormatter(_DF):
                 recordcopy.__dict__["message"] = recordcopy.getMessage()
         recordcopy.__dict__["levelprefix"] = levelname + ":" + seperator
         recordcopy.asctime = asctime
+        recordcopy.message = message
         recordcopy.__dict__["pid"] = process
         return super().formatMessage(recordcopy)
 
 
 class AccessFormatter(_AF):
+    level_name_colors = {
+        TRACE_LOG_LEVEL: lambda level_name: click.style(str(level_name), fg="blue", bold=True),
+        logging.DEBUG: lambda level_name: click.style(str(level_name), fg="cyan", bold=True),
+        logging.INFO: lambda level_name: click.style(str(level_name), fg="green", bold=True),
+        logging.WARNING: lambda level_name: click.style(str(level_name), fg="yellow", bold=True),
+        logging.ERROR: lambda level_name: click.style(str(level_name), fg="red", bold=True),
+        logging.CRITICAL: lambda level_name: click.style(str(level_name), fg="bright_red", bold=True),
+    }
+
     def color_default(self, asctime: str, level_no: int) -> str:
         def default(asctime: str) -> str:
             return str(asctime)
@@ -72,16 +82,19 @@ class AccessFormatter(_AF):
         return status_and_phrase
 
     def normalize_default(self, recordcopy: logging.LogRecord) -> logging.LogRecord:
+        levelname = recordcopy.levelname
         asctime = recordcopy.asctime
         process = recordcopy.process
-        levelname = recordcopy.levelname
-
+        message = recordcopy.message
         seperator = " " * (8 - len(recordcopy.levelname))
+
         if self.use_colors:
             levelname = self.color_level_name(levelname, recordcopy.levelno)
             asctime = self.color_default(asctime, recordcopy.levelno)
+            message = click.style(message, fg="bright_white")
             process = self.color_default("PID: " + str(process), recordcopy.levelno)
         recordcopy.asctime = asctime
+        recordcopy.message = message
         recordcopy.__dict__["pid"] = process
         recordcopy.__dict__["levelprefix"] = levelname + ":" + seperator
 
