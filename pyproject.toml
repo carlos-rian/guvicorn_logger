@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "guvicorn_logger"
+version = "0.1.4"
+description = "Colored, normalizes and joins logs between Uvicorn and Gunicorn."
+authors = ["carlos.rian <crian.rian@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/carlos-rian/guvicorn_logger"
+keywords = ["gunicorn", "uvicorn", "logs", "logging"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+uvicorn = "^0.17.5"
+gunicorn = "^20.1.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+black = "^22.1.0"
+isort = "^5.10.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
