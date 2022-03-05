@@ -24,7 +24,7 @@ logger.critical("Critical")
 #### Output
 
 - Python File
-![alt text](/docs/img/normal.JPG)
+![alt text](https://raw.githubusercontent.com/carlos-rian/guvicorn_logger/main/docs/img/normal.JPG)
 
 - Framework (Uvicorn, Gunicorn, Fastapi)
-![alt text](/docs/img/framework-web.JPG)
+![alt text](https://raw.githubusercontent.com/carlos-rian/guvicorn_logger/main/docs/img/framework-web.JPG)
