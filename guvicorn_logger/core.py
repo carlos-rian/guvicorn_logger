@@ -11,12 +11,24 @@ TRACE_LOG_LEVEL = 5
 
 class DefaultFormatter(_DF):
     level_name_colors = {
-        TRACE_LOG_LEVEL: lambda level_name: click.style(str(level_name), fg="blue", bold=True),
-        logging.DEBUG: lambda level_name: click.style(str(level_name), fg="cyan", bold=True),
-        logging.INFO: lambda level_name: click.style(str(level_name), fg="green", bold=True),
-        logging.WARNING: lambda level_name: click.style(str(level_name), fg="yellow", bold=True),
-        logging.ERROR: lambda level_name: click.style(str(level_name), fg="red", bold=True),
-        logging.CRITICAL: lambda level_name: click.style(str(level_name), fg="bright_red", bold=True),
+        TRACE_LOG_LEVEL: lambda level_name: click.style(
+            str(level_name), fg="blue", bold=True
+        ),
+        logging.DEBUG: lambda level_name: click.style(
+            str(level_name), fg="cyan", bold=True
+        ),
+        logging.INFO: lambda level_name: click.style(
+            str(level_name), fg="green", bold=True
+        ),
+        logging.WARNING: lambda level_name: click.style(
+            str(level_name), fg="yellow", bold=True
+        ),
+        logging.ERROR: lambda level_name: click.style(
+            str(level_name), fg="red", bold=True
+        ),
+        logging.CRITICAL: lambda level_name: click.style(
+            str(level_name), fg="bright_red", bold=True
+        ),
     }
 
     def color_default(self, asctime: str, level_no: int) -> str:
@@ -29,34 +41,54 @@ class DefaultFormatter(_DF):
     def formatMessage(self, record: logging.LogRecord) -> str:
         recordcopy = copy(record)
         levelname = recordcopy.levelname
-        asctime = recordcopy.asctime
-        process = recordcopy.process
-        message = recordcopy.message
+        asctime = recordcopy.__dict__.get("asctime", "")
+        process = recordcopy.__dict__.get("process", "")
+        message = recordcopy.__dict__.get("message", "")
+        module = recordcopy.__dict__.get("module", "")
+        lineno = recordcopy.__dict__.get("lineno", "")
 
         seperator = " " * (8 - len(recordcopy.levelname))
+
         if self.use_colors:
             levelname = self.color_level_name(levelname, recordcopy.levelno)
             asctime = self.color_default(asctime, recordcopy.levelno)
             message = click.style(message, fg="bright_white")
             process = self.color_default("PID: " + str(process), recordcopy.levelno)
+            module = click.style(str(module), fg="bright_white")
+            lineno = click.style(str(lineno), fg="bright_white")
             if "color_message" in recordcopy.__dict__:
                 recordcopy.msg = recordcopy.__dict__["color_message"]
                 recordcopy.__dict__["message"] = recordcopy.getMessage()
-        recordcopy.__dict__["levelprefix"] = levelname + ":" + seperator
+
         recordcopy.asctime = asctime
         recordcopy.message = message
+        recordcopy.module = module
+        recordcopy.lineno = lineno
         recordcopy.__dict__["pid"] = process
+        recordcopy.__dict__["levelprefix"] = levelname + ":" + seperator
         return super().formatMessage(recordcopy)
 
 
 class AccessFormatter(_AF):
     level_name_colors = {
-        TRACE_LOG_LEVEL: lambda level_name: click.style(str(level_name), fg="blue", bold=True),
-        logging.DEBUG: lambda level_name: click.style(str(level_name), fg="cyan", bold=True),
-        logging.INFO: lambda level_name: click.style(str(level_name), fg="green", bold=True),
-        logging.WARNING: lambda level_name: click.style(str(level_name), fg="yellow", bold=True),
-        logging.ERROR: lambda level_name: click.style(str(level_name), fg="red", bold=True),
-        logging.CRITICAL: lambda level_name: click.style(str(level_name), fg="bright_red", bold=True),
+        TRACE_LOG_LEVEL: lambda level_name: click.style(
+            str(level_name), fg="blue", bold=True
+        ),
+        logging.DEBUG: lambda level_name: click.style(
+            str(level_name), fg="cyan", bold=True
+        ),
+        logging.INFO: lambda level_name: click.style(
+            str(level_name), fg="green", bold=True
+        ),
+        logging.WARNING: lambda level_name: click.style(
+            str(level_name), fg="yellow", bold=True
+        ),
+        logging.ERROR: lambda level_name: click.style(
+            str(level_name), fg="red", bold=True
+        ),
+        logging.CRITICAL: lambda level_name: click.style(
+            str(level_name), fg="bright_red", bold=True
+        ),
     }
 
     def color_default(self, asctime: str, level_no: int) -> str:
@@ -83,18 +115,24 @@ class AccessFormatter(_AF):
 
     def normalize_default(self, recordcopy: logging.LogRecord) -> logging.LogRecord:
         levelname = recordcopy.levelname
-        asctime = recordcopy.asctime
-        process = recordcopy.process
-        message = recordcopy.message
-        seperator = " " * (8 - len(recordcopy.levelname))
+        asctime = recordcopy.__dict__.get("asctime", "")
+        process = recordcopy.__dict__.get("process", "")
+        message = recordcopy.__dict__.get("message", "")
+        module = recordcopy.__dict__.get("module", "")
+        lineno = recordcopy.__dict__.get("lineno", "")
 
+        seperator = " " * (8 - len(recordcopy.levelname))
         if self.use_colors:
             levelname = self.color_level_name(levelname, recordcopy.levelno)
             asctime = self.color_default(asctime, recordcopy.levelno)
             message = click.style(message, fg="bright_white")
             process = self.color_default("PID: " + str(process), recordcopy.levelno)
+            module = click.style(str(module), fg="bright_white")
+            lineno = click.style(str(lineno), fg="bright_white")
         recordcopy.asctime = asctime
         recordcopy.message = message
+        recordcopy.module = module
+        recordcopy.lineno = lineno
         recordcopy.__dict__["pid"] = process
         recordcopy.__dict__["levelprefix"] = levelname + ":" + seperator
 
