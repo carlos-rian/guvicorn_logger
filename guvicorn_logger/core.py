@@ -3,10 +3,13 @@ import logging
 from copy import copy
 
 import click
+import psutil
 from uvicorn.logging import AccessFormatter as _AF
 from uvicorn.logging import DefaultFormatter as _DF
 
 TRACE_LOG_LEVEL = 5
+_last_pid = len(str(psutil.pids()[-1]))
+PID_MAX_LENGTH = _last_pid if _last_pid > 3 else 3 + 5
 
 
 class DefaultFormatter(_DF):
@@ -43,7 +46,7 @@ class DefaultFormatter(_DF):
         levelname = recordcopy.levelname
         asctime = recordcopy.__dict__.get("asctime", "")
         _norm_process = "PID: " + str(recordcopy.__dict__.get("process", ""))
-        process = _norm_process + ": " + " " * (9 - len(_norm_process))
+        process = _norm_process + " " * (PID_MAX_LENGTH - len(_norm_process))
         message = recordcopy.__dict__.get("message", "")
         module = recordcopy.__dict__.get("module", "")
         lineno = recordcopy.__dict__.get("lineno", "")
@@ -118,7 +121,7 @@ class AccessFormatter(_AF):
         levelname = recordcopy.levelname
         asctime = recordcopy.__dict__.get("asctime", "")
         _norm_process = "PID: " + str(recordcopy.__dict__.get("process", ""))
-        process = _norm_process + ": " + " " * (9 - len(_norm_process))
+        process = _norm_process + " " * (PID_MAX_LENGTH - len(_norm_process))
         message = recordcopy.__dict__.get("message", "")
         module = recordcopy.__dict__.get("module", "")
         lineno = recordcopy.__dict__.get("lineno", "")

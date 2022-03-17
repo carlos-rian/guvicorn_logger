@@ -17,7 +17,7 @@ logger.error("Error")
 logger.warning("Warning")
 logger.critical("Critical")
 
-fmt = "(%(pid)s) | %(levelprefix)s | %(module)s:%(lineno)s | %(message)s"
+fmt = "(%(pid)s) | %(levelprefix)s %(message)s"
 logger = Logger(fmt=fmt).configure()
 
 logger.info("Information")
@@ -25,7 +25,7 @@ logger.error("Error")
 logger.warning("Warning")
 logger.critical("Critical")
 
-fmt = "(%(pid)s) | %(levelprefix)s | %(module)s:%(lineno)s | %(message)s"
+fmt = "(%(pid)s) | %(levelprefix)s %(message)s"
 logger = Logger(fmt=fmt, use_colors=False).configure()
 
 logger.info("Information")

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "guvicorn_logger"
-version = "0.1.9"
+version = "0.1.10"
 description = "Colored, normalizes and joins logs between Uvicorn and Gunicorn."
 authors = ["carlos.rian <crian.rian@gmail.com>"]
 license = "MIT"
@@ -12,6 +12,7 @@ keywords = ["gunicorn", "uvicorn", "logs", "logging"]
 python = "^3.8"
 uvicorn = "^0.17.5"
 gunicorn = "^20.1.0"
+psutil = "^5.9.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
