@@ -42,7 +42,8 @@ class DefaultFormatter(_DF):
         recordcopy = copy(record)
         levelname = recordcopy.levelname
         asctime = recordcopy.__dict__.get("asctime", "")
-        process = recordcopy.__dict__.get("process", "")
+        _norm_process = "PID: " + str(recordcopy.__dict__.get("process", ""))
+        process = _norm_process + ": " + " " * (9 - len(_norm_process))
         message = recordcopy.__dict__.get("message", "")
         module = recordcopy.__dict__.get("module", "")
         lineno = recordcopy.__dict__.get("lineno", "")
@@ -53,7 +54,7 @@ class DefaultFormatter(_DF):
             levelname = self.color_level_name(levelname, recordcopy.levelno)
             asctime = self.color_default(asctime, recordcopy.levelno)
             message = click.style(message, fg="bright_white")
-            process = self.color_default("PID: " + str(process), recordcopy.levelno)
+            process = self.color_default(process, recordcopy.levelno)
             module = click.style(str(module), fg="bright_white")
             lineno = click.style(str(lineno), fg="bright_white")
             if "color_message" in recordcopy.__dict__:
@@ -116,7 +117,8 @@ class AccessFormatter(_AF):
     def normalize_default(self, recordcopy: logging.LogRecord) -> logging.LogRecord:
         levelname = recordcopy.levelname
         asctime = recordcopy.__dict__.get("asctime", "")
-        process = recordcopy.__dict__.get("process", "")
+        _norm_process = "PID: " + str(recordcopy.__dict__.get("process", ""))
+        process = _norm_process + ": " + " " * (9 - len(_norm_process))
         message = recordcopy.__dict__.get("message", "")
         module = recordcopy.__dict__.get("module", "")
         lineno = recordcopy.__dict__.get("lineno", "")
@@ -126,7 +128,7 @@ class AccessFormatter(_AF):
             levelname = self.color_level_name(levelname, recordcopy.levelno)
             asctime = self.color_default(asctime, recordcopy.levelno)
             message = click.style(message, fg="bright_white")
-            process = self.color_default("PID: " + str(process), recordcopy.levelno)
+            process = self.color_default(process, recordcopy.levelno)
             module = click.style(str(module), fg="bright_white")
             lineno = click.style(str(lineno), fg="bright_white")
         recordcopy.asctime = asctime
