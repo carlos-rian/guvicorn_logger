@@ -6,8 +6,9 @@ from gunicorn import glogging
 
 class Logger:
     """
-    fmt: formatter default -> "(%(asctime)s) (%(pid)s) | %(module)s |%(levelprefix)s %(message)s"
+    fmt: formatter default -> "(%(asctime)s) (%(correlation_id)s) (%(pid)s) | %(levelprefix)s %(message)s"
     use_colors: by default is true
+    correlation_id: to use the lib asgi-correlation-id
 
     """
 
@@ -21,11 +22,16 @@ class Logger:
         self,
         fmt: str = None,
         use_colors: bool = True,  # TODO path_file_log: str = None
+        correlation_id: bool = False,
     ) -> None:
-        DEFAULT_FORMAT = "(%(asctime)s) (%(pid)s) | %(levelprefix)s %(message)s"
-        self._formatter = fmt or DEFAULT_FORMAT
         self._use_colors = use_colors
         self._path_file_log = None  # path_file_log
+        self._correlation_id = correlation_id
+        if correlation_id:
+            DEFAULT_FORMAT = "(%(asctime)s) (%(correlation_id)s) (%(pid)s) | %(levelprefix)s %(message)s"
+        else:
+            DEFAULT_FORMAT = "(%(asctime)s) (%(pid)s) | %(levelprefix)s %(message)s"
+        self._formatter = fmt or DEFAULT_FORMAT
 
     def _check_file_path(self):
         self._path_file_log = os.path.normpath(f"{self._path_file_log}")
@@ -73,6 +79,12 @@ class Logger:
         config = {
             "version": 1,
             "disable_existing_loggers": False,
+            "filters": {
+                "correlation_id": {
+                    "()": "asgi_correlation_id.CorrelationIdFilter",
+                    "uuid_length": 8,
+                },
+            },
             "formatters": {
                 "default": {
                     "()": "guvicorn_logger.core.DefaultFormatter",
@@ -90,11 +102,13 @@ class Logger:
                     "formatter": "default",
                     "class": "logging.StreamHandler",
                     "stream": "ext://sys.stdout",
+                    "filters": ["correlation_id"],
                 },
                 "access": {
                     "formatter": "access",
                     "class": "logging.StreamHandler",
                     "stream": "ext://sys.stdout",
+                    "filters": ["correlation_id"],
                 },
             },
             "root": {"handlers": ["console"], "level": "INFO"},

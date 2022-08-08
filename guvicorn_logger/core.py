@@ -43,6 +43,7 @@ class DefaultFormatter(_DF):
 
     def formatMessage(self, record: logging.LogRecord) -> str:
         recordcopy = copy(record)
+        correlation_id = recordcopy.__dict__.get("correlation_id", "")
         levelname = recordcopy.levelname
         asctime = recordcopy.__dict__.get("asctime", "")
         _norm_process = "PID: " + str(recordcopy.__dict__.get("process", ""))
@@ -54,6 +55,7 @@ class DefaultFormatter(_DF):
         seperator = " " * (8 - len(recordcopy.levelname))
 
         if self.use_colors:
+            correlation_id = self.color_default(correlation_id, recordcopy.levelno)
             levelname = self.color_level_name(levelname, recordcopy.levelno)
             asctime = self.color_default(asctime, recordcopy.levelno)
             message = click.style(message, fg="bright_white")
@@ -68,6 +70,7 @@ class DefaultFormatter(_DF):
         recordcopy.message = message
         recordcopy.module = module
         recordcopy.lineno = lineno
+        recordcopy.__dict__["correlation_id"] = correlation_id
         recordcopy.__dict__["pid"] = process
         recordcopy.__dict__["levelprefix"] = levelname + ":" + seperator
         return super().formatMessage(recordcopy)
@@ -118,6 +121,7 @@ class AccessFormatter(_AF):
         return status_and_phrase
 
     def normalize_default(self, recordcopy: logging.LogRecord) -> logging.LogRecord:
+        correlation_id = recordcopy.__dict__.get("correlation_id", "")
         levelname = recordcopy.levelname
         asctime = recordcopy.__dict__.get("asctime", "")
         _norm_process = "PID: " + str(recordcopy.__dict__.get("process", ""))
@@ -128,6 +132,7 @@ class AccessFormatter(_AF):
 
         seperator = " " * (8 - len(recordcopy.levelname))
         if self.use_colors:
+            correlation_id = self.color_default(correlation_id, recordcopy.levelno)
             levelname = self.color_level_name(levelname, recordcopy.levelno)
             asctime = self.color_default(asctime, recordcopy.levelno)
             message = click.style(message, fg="bright_white")
@@ -139,6 +144,7 @@ class AccessFormatter(_AF):
         recordcopy.module = module
         recordcopy.lineno = lineno
         recordcopy.__dict__["pid"] = process
+        recordcopy.__dict__["correlation_id"] = correlation_id
         recordcopy.__dict__["levelprefix"] = levelname + ":" + seperator
 
     def formatMessage(self, record: logging.LogRecord) -> str:

@@ -25,3 +25,35 @@ logger.critical("Message - Critical")
 
 - Framework (Uvicorn, Gunicorn, Fastapi)
 ![alt text](https://raw.githubusercontent.com/carlos-rian/guvicorn_logger/main/docs/img/framework-web.JPG)
+
+
+
+### FastAPI | asgi-correlation-id
+
+```python
+from asgi_correlation_id import CorrelationIdMiddleware
+from fastapi import FastAPI
+
+from guvicorn_logger import Logger
+
+app = FastAPI()
+
+
+app.add_middleware(CorrelationIdMiddleware)
+
+
+logger = Logger(correlation_id=True).configure()
+
+
+@app.get("/")
+def main():
+    logger.info("Message - Info")
+    logger.error("Message - Error")
+    logger.warning("Message - Warning")
+    logger.critical("Message - Critical")
+
+```
+
+#### Output
+
+![alt text](https://raw.githubusercontent.com/carlos-rian/guvicorn_logger/main/docs/img/fastapi.JPG)
