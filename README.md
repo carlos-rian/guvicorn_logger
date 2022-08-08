@@ -56,4 +56,4 @@ def main():
 
 #### Output
 
-![alt text](https://raw.githubusercontent.com/carlos-rian/guvicorn_logger/main/docs/img/fastapi.JPG)
+![alt text](https://raw.githubusercontent.com/carlos-rian/guvicorn_logger/main/docs/img/fastapi.png)
