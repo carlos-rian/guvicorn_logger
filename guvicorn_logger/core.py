@@ -3,35 +3,23 @@ import logging
 from copy import copy
 
 import click
-import psutil
+import os
 from uvicorn.logging import AccessFormatter as _AF
 from uvicorn.logging import DefaultFormatter as _DF
 
 TRACE_LOG_LEVEL = 5
-_last_pid = len(str(psutil.pids()[-1]))
+_last_pid = len(str(os.getpid()))
 PID_MAX_LENGTH = _last_pid if _last_pid > 3 else 3 + 5
 
 
 class DefaultFormatter(_DF):
     level_name_colors = {
-        TRACE_LOG_LEVEL: lambda level_name: click.style(
-            str(level_name), fg="blue", bold=True
-        ),
-        logging.DEBUG: lambda level_name: click.style(
-            str(level_name), fg="cyan", bold=True
-        ),
-        logging.INFO: lambda level_name: click.style(
-            str(level_name), fg="green", bold=True
-        ),
-        logging.WARNING: lambda level_name: click.style(
-            str(level_name), fg="yellow", bold=True
-        ),
-        logging.ERROR: lambda level_name: click.style(
-            str(level_name), fg="red", bold=True
-        ),
-        logging.CRITICAL: lambda level_name: click.style(
-            str(level_name), fg="bright_red", bold=True
-        ),
+        TRACE_LOG_LEVEL: lambda level_name: click.style(str(level_name), fg="blue", bold=True),
+        logging.DEBUG: lambda level_name: click.style(str(level_name), fg="cyan", bold=True),
+        logging.INFO: lambda level_name: click.style(str(level_name), fg="green", bold=True),
+        logging.WARNING: lambda level_name: click.style(str(level_name), fg="yellow", bold=True),
+        logging.ERROR: lambda level_name: click.style(str(level_name), fg="red", bold=True),
+        logging.CRITICAL: lambda level_name: click.style(str(level_name), fg="bright_red", bold=True),
     }
 
     def color_default(self, asctime: str, level_no: int) -> str:
@@ -78,24 +66,12 @@ class DefaultFormatter(_DF):
 
 class AccessFormatter(_AF):
     level_name_colors = {
-        TRACE_LOG_LEVEL: lambda level_name: click.style(
-            str(level_name), fg="blue", bold=True
-        ),
-        logging.DEBUG: lambda level_name: click.style(
-            str(level_name), fg="cyan", bold=True
-        ),
-        logging.INFO: lambda level_name: click.style(
-            str(level_name), fg="green", bold=True
-        ),
-        logging.WARNING: lambda level_name: click.style(
-            str(level_name), fg="yellow", bold=True
-        ),
-        logging.ERROR: lambda level_name: click.style(
-            str(level_name), fg="red", bold=True
-        ),
-        logging.CRITICAL: lambda level_name: click.style(
-            str(level_name), fg="bright_red", bold=True
-        ),
+        TRACE_LOG_LEVEL: lambda level_name: click.style(str(level_name), fg="blue", bold=True),
+        logging.DEBUG: lambda level_name: click.style(str(level_name), fg="cyan", bold=True),
+        logging.INFO: lambda level_name: click.style(str(level_name), fg="green", bold=True),
+        logging.WARNING: lambda level_name: click.style(str(level_name), fg="yellow", bold=True),
+        logging.ERROR: lambda level_name: click.style(str(level_name), fg="red", bold=True),
+        logging.CRITICAL: lambda level_name: click.style(str(level_name), fg="bright_red", bold=True),
     }
 
     def color_default(self, asctime: str, level_no: int) -> str:

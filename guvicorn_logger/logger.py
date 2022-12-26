@@ -39,9 +39,7 @@ class Logger:
             try:
                 os.mkdir(self._path_file_log)
             except PermissionError as err:
-                raise PermissionError(
-                    "The directory does not exist and is not allowed to create."
-                )
+                raise PermissionError("The directory does not exist and is not allowed to create.")
             except Exception as err:
                 print(err.with_traceback(None))
 
