@@ -145,9 +145,8 @@ class Logger:
 
         return config
 
-    def configure(self) -> logging.logging:
+    def configure(self) -> logging:
         log_config = self.get_config()
         config.dictConfig(log_config)
-        logging.dictConfig(log_config)
 
-        return logging.logging
+        return logging
