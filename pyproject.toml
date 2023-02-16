@@ -15,7 +15,7 @@ gunicorn = "*"
 asgi-correlation-id = "*"
 
 [tool.poetry.dev-dependencies]
-pytest = "^5.2"
+pytest = "^7.2"
 black = "^22.1.0"
 isort = "^5.10.1"
 asgi-correlation-id = "^3.0.0"
