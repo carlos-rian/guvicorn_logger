@@ -1,7 +1,7 @@
 import os
 from logging import config
 
-from gunicorn import glogging
+import logging
 
 
 class Logger:
@@ -145,9 +145,9 @@ class Logger:
 
         return config
 
-    def configure(self) -> glogging.logging:
+    def configure(self) -> logging.logging:
         log_config = self.get_config()
         config.dictConfig(log_config)
-        glogging.dictConfig(log_config)
+        logging.dictConfig(log_config)
 
-        return glogging.logging
+        return logging.logging
