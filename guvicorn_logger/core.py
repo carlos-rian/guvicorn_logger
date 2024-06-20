@@ -1,9 +1,9 @@
 import http
 import logging
+import os
 from copy import copy
 
 import click
-import os
 from uvicorn.logging import AccessFormatter as _AF
 from uvicorn.logging import DefaultFormatter as _DF
 
