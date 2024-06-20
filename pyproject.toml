@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "guvicorn_logger"
-version = "0.1.16"
+version = "0.1.17b0"
 description = "Colored, normalizes and joins logs between Uvicorn and Gunicorn."
 authors = ["carlos.rian <crian.rian@gmail.com>"]
 license = "MIT"
@@ -14,11 +14,11 @@ uvicorn = "*"
 gunicorn = "*"
 asgi-correlation-id = "*"
 
-[tool.poetry.dev-dependencies]
-pytest = "^5.2"
-black = "^22.1.0"
-isort = "^5.10.1"
-asgi-correlation-id = "^3.0.0"
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.2.2"
+black = "^24.4.2"
+isort = "^5.13.2"
+pytz = "^2024.1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

@@ -1,7 +1,6 @@
+import logging
 import os
 from logging import config
-
-import logging
 
 
 class Logger:
@@ -38,7 +37,7 @@ class Logger:
         if not os.path.exists(self._path_file_log):
             try:
                 os.mkdir(self._path_file_log)
-            except PermissionError as err:
+            except PermissionError:
                 raise PermissionError("The directory does not exist and is not allowed to create.")
             except Exception as err:
                 print(err.with_traceback(None))
